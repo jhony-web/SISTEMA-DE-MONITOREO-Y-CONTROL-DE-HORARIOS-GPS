@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tiempo Real</title>
+  <!-- Incluir la hoja de estilos de Bootstrap desde un CDN-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Estilos personalizados para el cuerpo de la página -->
+  <style media="screen">
+    html, body {
+      height: 100%;
+    }
+    body {
+      background: #f3ebea;
+      padding-top: 20px;
+    }
+
+    /* Estilo para el texto en la esquina superior izquierda */
+    .corner-text {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      color: rgb(0, 0, 0);
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    /* Añadir margen inferior a la tabla para evitar que se oculten las primeras filas */
+    .table {
+      margin-bottom: 2rem;
+    }
+
+
+
+    /* Ajustar el espacio entre las tablas */
+    .table-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style> 
+</head>
+<body>
+  <!-- Contenedor principal de la página -->
+  <div class="container">
+    <!-- Fila y tarjeta para centrar el contenido -->
+    <div class="row justify-content-center align-self-center">
+      <!-- Agrega el texto en la esquina superior izquierda -->
+      <div class="corner-text">ORIOL S.A.</div>
+
+            <!-- Agregar una nueva tabla debajo -->
+            <div class="card">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Paraderos</th>
+     
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Ejemplo de fila para la segunda tabla -->
+                  <tr>
+                    <!--<th scope="row">Paradero Upis</th>-->
+                    
+                    <td>Paradero Upis</td>
+                  </tr>
+                  <tr>
+                    <td>Alto Alianza</td>
+                  </tr>
+                  <tr>
+                    <td>La 25</td>
+                  </tr>
+                  <tr>
+                    <td>Brasilia</td>
+                  </tr>
+
+                  <tr>
+                    <td>BCP</td>
+                  </tr>
+
+                  <tr>
+                    <td>Iglesia de Tingo</td>
+                  </tr>
+                  <tr>
+                    <td>FERRREYROS</td>
+                  </tr>
+                  <tr>
+                    <td>TOTTUS</td>
+                  </tr>
+                  <tr>
+                    <td>Iglesia Nuestra Señora del Pilar</td>
+                  </tr>
+
+                  <tr>
+                    <td>Paucarpata</td>
+                  </tr>
+
+                  <tr>
+                    <td>Iglesia Nuestra Señora del Pilar</td>
+                  </tr>
+
+                  <tr>
+                    <td>TOTTUS</td>
+                  </tr>
+
+                  <tr>
+                    <td>FERRREYROS</td>
+                  </tr>
+
+                  <tr>
+                    <td>Iglesia de Tingo</td>
+                  </tr>
+
+                  <tr>
+                    <td>Brasilia</td>
+                  </tr>
+
+                  <tr>
+                    <td>La 25</td>
+                  </tr>
+
+                  <tr>
+                    <td>Alto Alianza</td>
+                  </tr>
+
+                  <tr>
+                    <td>Paradero Upis</td>
+                  </tr>
+
+                  <tr>
+                    <td>Paradero Final</td>
+                  </tr>
+
+
+      
+                  <!-- Puedes añadir más filas aquí -->
+                </tbody>
+      
+              </table>
+            </div>
+
+
+
+      <div class="card">
+        <!-- Mostrar la distancia en la primera tabla -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Distancia al paradero</th>
+            </tr>
+          </thead>
+          <tbody id="tablaDistancias">
+            <!-- Ejemplo de fila para la primera tabla -->
+
+            <!-- Aquí se añadirán más filas de la tabla dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+
+
+  <!-- Incluir la biblioteca de Socket.IO desde el servidor -->
+  <script src="socket.io/socket.io.js" charset="utf-8"></script>
+
+<!-- Script principal que se ejecuta en el cliente -->
+<script>
+  // Crear una conexión Socket.IO
+  const socket = io();
+
+  // Obtener el elemento de la tabla
+  const tablaDistancias = document.getElementById('tablaDistancias');
+
+  // Contador para la secuencia
+  let secuencia = 1;
+
+  // Escuchar el evento 'ready' emitido desde el servidor
+  socket.on('ready', function (data) {
+    // Mostrar los datos recibidos en la consola del navegador
+    console.log(data);
+
+    // Crear una nueva fila para la tabla
+    const nuevaFila = document.createElement('tr');
+
+    // Crear celdas para la secuencia y la distancia
+    const celdaSecuencia = document.createElement('td');
+    const celdaDistancia = document.createElement('td');
+
+    // Asignar valores a las celdas
+    celdaSecuencia.textContent = secuencia;
+    celdaDistancia.textContent = data; // Asegúrate de que 'data' es la forma correcta de acceder a tus datos
+
+    // Añadir las celdas a la fila
+    nuevaFila.appendChild(celdaSecuencia);
+    nuevaFila.appendChild(celdaDistancia);
+
+    // Añadir la nueva fila a la tabla
+    tablaDistancias.appendChild(nuevaFila);
+
+    // Incrementar el contador de secuencia
+    secuencia++;
+  });
+</script>
+
+</body>
+</html>
